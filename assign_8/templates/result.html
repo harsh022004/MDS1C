@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Admission Records — Admission Portal</title>
+</head>
+<body>
+
+<nav class="navbar">
+    <a class="brand" href="/admission">🎓 AdmissionPortal <span>Records</span></a>
+    <div class="nav-right">
+        <span>👤 {{ user }}</span>
+        <a href="/admission">New Application</a>
+        <a href="/logout">Logout</a>
+    </div>
+</nav>
+
+<div class="page">
+    <div class="card wide" style="max-width:1100px;">
+        <div class="result-header">
+            <h2>📊 Admission Records</h2>
+            <a href="/admission" class="btn btn-outline" style="width:auto; padding:8px 18px; font-size:0.88rem;">
+                + New Application
+            </a>
+        </div>
+        <p class="record-count">
+            Total records: <strong>{{ data | length }}</strong>
+        </p>
+
+        {% if data %}
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Course</th>
+                        <th>Phone</th>
+                        <th>City</th>
+                        <th>Board</th>
+                        <th>Percentage</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in data %}
+                    <tr>
+                        <td style="color:var(--text-muted); font-size:0.82rem;">{{ loop.index }}</td>
+                        <td><strong>{{ item.get('name', '—') }}</strong></td>
+                        <td style="color:var(--text-muted); font-size:0.88rem;">{{ item.get('email', '—') }}</td>
+                        <td><span class="badge">{{ item.get('course', '—') }}</span></td>
+                        <td>{{ item.get('phone', '—') }}</td>
+                        <td>{{ item.get('city', '—') }}</td>
+                        <td>{{ item.get('board', '—') }}</td>
+                        <td><strong style="color:var(--primary);">{{ item.get('percentage', '—') }}</strong></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <div class="icon">📭</div>
+            <p>No admission records found yet.</p>
+            <a href="/admission" class="btn btn-primary" style="width:auto; margin-top:1rem; padding:10px 24px;">
+                Submit First Application
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+</body>
+</html>
